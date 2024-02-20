@@ -48,6 +48,6 @@ app.get('/getAll', (req, res) => {
 });
 
 
-app.listen(PORT, () => {
+app.listen(HTTPS_PORT, () => {
   console.log(`Node.js app listening at http://localhost:${HTTPS_PORT}`);
 });
