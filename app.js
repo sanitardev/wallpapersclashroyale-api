@@ -18,6 +18,19 @@ app.get('/', (req, res) => {
     res.send("<h2>Wallpapers Clash Royale API</h2>");
 });
 
+app.get('/.well-known/pki-validation/F279C989C03E502F8249828EA58D23E0.txt', (req, res) => {
+  const filePath = path.join(__dirname, '.well-known', 'pki-validation', 'F279C989C03E502F8249828EA58D23E0.txt');
+
+  // Check if the file exists
+  if (fs.existsSync(filePath)) {
+      // Send the file
+      res.sendFile(filePath);
+  } else {
+      // File not found
+      res.status(404).send('File not found');
+  }
+});
+
 const IMAGES_FOLDER = path.join(__dirname, 'images');
 
 app.get('/random', (req, res) => {
