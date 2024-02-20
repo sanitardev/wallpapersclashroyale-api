@@ -8,28 +8,25 @@ const bodyParser = require('body-parser');
 // *** ADD ***
 const app = express();
 const PORT = process.env.PORT || 80;
+const HTTPS_PORT = process.env.HTTPS_PORT || 443; // Choose a suitable HTTPS port
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(express.static("images"));
+
+const sslOptions = {
+  key: fs.readFileSync('.crt/private.key'),
+  cert: fs.readFileSync('.crt/certificate.crt'),
+};
+
+// Create an HTTPS server
+const httpsServer = https.createServer(sslOptions, app);
 
 // *** REMOVE ***
 app.get('/', (req, res) => {
     res.send("<h2>Wallpapers Clash Royale API</h2>");
 });
 
-app.get('/.well-known/pki-validation/F279C989C03E502F8249828EA58D23E0.txt', (req, res) => {
-  const filePath = path.join(__dirname, '.well-known', 'pki-validation', 'F279C989C03E502F8249828EA58D23E0.txt');
-
-  // Check if the file exists
-  if (fs.existsSync(filePath)) {
-      // Send the file
-      res.sendFile(filePath);
-  } else {
-      // File not found
-      res.status(404).send('File not found');
-  }
-});
 
 const IMAGES_FOLDER = path.join(__dirname, 'images');
 
@@ -51,5 +48,5 @@ app.get('/getAll', (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`Node.js app listening at http://localhost:${PORT}`);
+  console.log(`Node.js app listening at http://localhost:${HTTPS_PORT}`);
 });
