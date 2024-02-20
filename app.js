@@ -23,6 +23,8 @@ const sslOptions = {
 // Create an HTTPS server
 const httpsServer = https.createServer(sslOptions, app);
 
+httpsServer.use(express.static("images"));
+
 // *** REMOVE ***
 app.get('/', (req, res) => {
     res.send("<h2>Wallpapers Clash Royale API</h2>");
