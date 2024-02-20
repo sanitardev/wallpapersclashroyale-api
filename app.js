@@ -35,14 +35,14 @@ app.get('/random', (req, res) => {
     const imageFiles = fs.readdirSync(IMAGES_FOLDER).filter(file => fs.statSync(path.join(IMAGES_FOLDER, file)).isFile());
     const random_iamge_number = Math.floor(Math.random() * imageFiles.length);
     const image = imageFiles[random_iamge_number];
-    var fullUrl = req.protocol + '://' + req.get('host') + `:${PORT}`  + `/${image}`;
+    var fullUrl = req.protocol + '://' + req.get('host') + `:${HTTPS_PORT}`  + `/${image}`;
 
     res.send(fullUrl);
   });
 
 app.get('/getAll', (req, res) => {
     const imageFiles = fs.readdirSync(IMAGES_FOLDER).filter(file => fs.statSync(path.join(IMAGES_FOLDER, file)).isFile());
-    const fullUrls = imageFiles.map(image => req.protocol + '://' + req.get('host') + `:${PORT}`  + `/${image}`);
+    const fullUrls = imageFiles.map(image => req.protocol + '://' + req.get('host') + `:${HTTPS_PORT}`  + `/${image}`);
 
     res.json(fullUrls);
 });
