@@ -15,6 +15,13 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(express.static("images"));
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://squid-app-tiggw.ondigitalocean.app/');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 const sslOptions = {
   key: fs.readFileSync('.crt/private.key'),
   cert: fs.readFileSync('.crt/certificate.crt'),
