@@ -76,7 +76,7 @@ app.post('/addImage', async (req, res) => {
         fs.writeFileSync(imagePath, Buffer.from(response.data));
 
         const fullUrl = req.protocol + '://' + req.get('host') + `:${HTTPS_PORT}` + `/${imageFileName}`;
-        res.json({ success: true, imageUrl: fullUrl });
+        res.json({ success: true, imageUrl: fullUrl, imageName: imageFileName});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to fetch and save the image.' });
