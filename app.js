@@ -55,7 +55,19 @@ app.get('/random', (req, res) => {
 
 app.get('/getAll', (req, res) => {
     const imageFiles = fs.readdirSync(IMAGES_FOLDER).filter(file => fs.statSync(path.join(IMAGES_FOLDER, file)).isFile());
-    const fullUrls = imageFiles.map(image => req.protocol + '://' + req.get('host') + `:${HTTPS_PORT}`  + `/${image}`);
+
+    // Get file creation times
+    const fileCreationTimes = imageFiles.map(file => {
+        const filePath = path.join(IMAGES_FOLDER, file);
+        const stat = fs.statSync(filePath);
+        return { file, creationTime: stat.birthtime };
+    });
+
+    // Sort files based on creation time
+    fileCreationTimes.sort((a, b) => a.creationTime - b.creationTime);
+
+    // Generate full URLs
+    const fullUrls = fileCreationTimes.map(entry => req.protocol + '://' + req.get('host') + `:${HTTPS_PORT}`  + `/${entry.file}`);
 
     res.json(fullUrls);
 });
