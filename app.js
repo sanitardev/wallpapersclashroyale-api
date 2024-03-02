@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const https= require('https');
 const axios = require('axios'); // Added axios
+const cors = require('cors'); // Added axios
+
 
 // *** ADD ***
 const app = express();
@@ -15,7 +17,7 @@ const HTTPS_PORT = process.env.HTTPS_PORT || 443; // Choose a suitable HTTPS por
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(express.static("images"));
-
+app.use(cors());
 function generateUniqueFilename() {
     const timestamp = new Date().getTime();
     return `image_${timestamp}.jpg`;
